@@ -2,7 +2,9 @@
 
 const { RTCPeerConnection, RTCSessionDescription } = window;
 
-const peerConnection = new RTCPeerConnection({
+window.localStream = null;
+window.peerConnection = new RTCPeerConnection({
+
     iceServers: [
         {
             urls: 'stun:stun.l.google.com:19302'
@@ -11,11 +13,12 @@ const peerConnection = new RTCPeerConnection({
 });
 
 let localStream;
-let isAlreadyCalling = false;
+window.isAlreadyCalling = false;
 
 navigator.getUserMedia(
     {video: true, audio: true},
     stream => {
+         window.localStream = stream;
         const localVideo = document.getElementById("local-video");
         if(localVideo) {
             localVideo.srcObject = stream;
