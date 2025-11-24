@@ -99,7 +99,10 @@ export class Server {
 
     private configureApp(): void {
 
-        this.app.use(express.static(path.join(__dirname, "../public")))
+/*         this.app.use(express.static(path.join(__dirname, "../public"))) */
+        const publicPath = path.join(process.cwd(), "public");
+        console.log("📁 Servindo pasta public de:", publicPath);
+        this.app.use(express.static(publicPath));
 
     }
 
