@@ -7,7 +7,8 @@ export class Server {
     private httpServer: HTTPServer;
     private app: Application;
     private io: SocketIOServer;
-
+    private activeSockets: string[] = [];
+    
     private readonly DEFAULT_PORT = 5000;
 
     constructor() {
@@ -22,28 +23,79 @@ export class Server {
 
         this.app = express();
         this.httpServer = createServer(this.app);
-        this.io = socketIO(this.httpServer);
-
+//        this.io = new SocketIOServer(this.httpServer);
+        // Adiciona configuração CORS
+        this.io = new SocketIOServer(this.httpServer, {
+            cors: {
+                origin: "*", // Para testes - em produção restringe isto
+                methods: ["GET", "POST"]
+            }
+        });
         this.configureApp();
-        this.handleSocketConnection();
+//        this.handleSocketConnection();
     
     }
 
     private handleRoutes(): void {
 
-        this.app.get("/", (req, res) => {
+/*         this.app.get("/", (req, res) => {
             res.send(`<h1>Hello World</h1>`)
-        });
+        }); */
 
     }
 
     private handleSocketConnection(): void {
 
         this.io.on("connection", socket => {
-            console.log("Socket connected");
+            console.log("Novo socket conectado:", socket.id);
+            const existingSocket = this.activeSockets.find(
+                existingSocket => existingSocket === socket.id
+            );
+
+            if(!existingSocket){
+                this.activeSockets.push(socket.id);
+                console.log("Socket adicionado. Total ativos:", this.activeSockets.length);
+
+                socket.emit("update-user-list", {
+                    users: this.activeSockets.filter(
+                        existingSocket => existingSocket !== socket.id
+                    )
+                });
+
+                socket.broadcast.emit("update-user-list", {
+                    users: [socket.id] 
+                });
+            } else {
+                console.log("Socket já existe");
+            }
+
+            
+            socket.on("call-user", data => {
+                socket.to(data.to).emit("call-made", {
+                    offer: data.offer,
+                    socket: socket.id
+                });
+            });
+            
+            socket.on("make-answer", data => {
+                socket.to(data.to).emit("answer-made", {
+                    socket: socket.id,
+                    answer: data.answer
+                });
+            });
+
+            socket.on("disconnect", (reason) => {
+            this.activeSockets = this.activeSockets.filter(
+                existingSocket => existingSocket !== socket.id
+            );
+            socket.broadcast.emit("remove-user", {
+                socketId: socket.id
+            });
+            
         });
 
-    }
+    });
+}
 
     private configureApp(): void {
 

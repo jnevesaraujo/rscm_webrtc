@@ -1,9 +1,9 @@
 {
   "type": "commonjs",
-   "scripts": {
-   "start": "ts-node src/index.ts",
-   "dev": "nodemon --watch src/**/*.ts --exec ts-node src/index.ts"
- },
+  "scripts": {
+    "start": "ts-node src/index.ts",
+    "dev": "nodemon --watch src/**/*.ts --exec ts-node src/index.ts"
+  },
   "devDependencies": {
     "@types/express": "^5.0.5",
     "@types/socket.io": "^3.0.1",
