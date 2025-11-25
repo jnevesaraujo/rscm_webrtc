@@ -1,18 +1,24 @@
 {
-  "type": "commonjs",
+  "name": "rscm_webrtc",
+  "version": "1.0.0",
   "scripts": {
-    "start": "ts-node src/index.ts",
-    "dev": "nodemon --watch src/**/*.ts --exec ts-node src/index.ts"
+    "start": "node dist/index.js",
+    "dev": "nodemon --watch src --exec ts-node src/index.ts",
+    "build": "tsc"
   },
-  "devDependencies": {
-    "@types/express": "^5.0.5",
-    "@types/socket.io": "^3.0.1",
-    "nodemon": "^3.1.11",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.9.3"
+  "engines": {
+    "node": ">=18.0.0"
   },
   "dependencies": {
     "express": "^5.1.0",
     "socket.io": "^4.8.1"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.5",
+    "@types/node": "^20.0.0",
+    "@types/socket.io": "^3.0.1",
+    "nodemon": "^3.1.11",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
   }
 }

@@ -4,12 +4,12 @@ import { createServer, Server as HTTPServer } from "http";
 import path from 'path';
 
 export class Server {
-    private httpServer: HTTPServer;
-    private app: Application;
-    private io: SocketIOServer;
+    private httpServer!: HTTPServer;
+    private app!: Application;
+    private io!: SocketIOServer;
     private activeSockets: string[] = [];
     
-    private readonly DEFAULT_PORT = 5000;
+    private readonly DEFAULT_PORT = Number(process.env.PORT) || 5000;
 
     constructor() {
         
