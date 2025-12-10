@@ -138,3 +138,9 @@
 .btn-hangup {
     background-color: #f44336;
 }
+
+.icon-call svg {
+  width: 25px;
+  fill: white;
+  margin-right: 5px;
+}
