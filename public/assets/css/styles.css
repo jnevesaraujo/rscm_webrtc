@@ -36,16 +36,10 @@
 }
 
 .content-container {
-  width: 100%;
   height: calc(100vh - 89px);
-  display: flex;
-  justify-content: space-between;
-  overflow: hidden;
-}
+} 
 
 .active-users-panel {
-  width: 300px;
-  height: 100%;
   border-right: 1px solid #cddfe7;
 }
 
