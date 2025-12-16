@@ -19,7 +19,7 @@ if (toggleVideoBtn) {
                     toggleVideoBtn.classList.remove("off");
                     console.log("Câmera ativada");
                 } else {
-                    toggleVideoBtn.textContent = "Câmera OFF";
+                    toggleVideoBtn.textContent = "Camera OFF";
                     toggleVideoBtn.classList.add("off");
                     console.log("Câmera desativada");
                 }
@@ -42,11 +42,11 @@ if (toggleAudioBtn) {
                 
                 // Atualizar UI do botão
                 if (isAudioEnabled) {
-                    toggleAudioBtn.textContent = "Microfone ON";
+                    toggleAudioBtn.innerHTML = '<span class="icon-call"><i class="fas fa-microphone"></i></span> Microfone ON';
                     toggleAudioBtn.classList.remove("off");
                     console.log("Microfone ativado");
                 } else {
-                    toggleAudioBtn.textContent = "Microfone OFF";
+                    toggleAudioBtn.innerHTML = '<span class="icon-call"><i class="fas fa-microphone-slash"></i></span> Microfone OFF';
                     toggleAudioBtn.classList.add("off");
                     console.log("Microfone desativado");
                 }

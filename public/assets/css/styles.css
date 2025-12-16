@@ -114,6 +114,35 @@
     color: white;
 }
 
+  #stats-display {
+/*       position: fixed;
+      bottom: 20px;
+      right: 20px; */
+      background: rgba(0, 0, 0, 0.3);
+      padding: 15px;
+      border-radius: 8px;
+      font-size: 11px;
+      display: none; /* oculto por padrão */
+  }
+  
+  #stats-display.active {
+      display: block;
+  }
+  
+/*   #stats-display h4 {
+      margin: 0 0 10px 0;
+      color: #0ff;
+  } */
+  
+  #stats-display .stat-line {
+      margin: 3px 0;
+  }
+  
+  .btn-stats {
+      background-color: #9B59B6;
+      margin: 5px;
+  }
+
 .btn-video {
     background-color: #2196F3;
 }
