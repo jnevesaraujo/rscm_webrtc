@@ -1,7 +1,7 @@
 ## Demonstração de Video Chat com WebRTC
 Uma aplicação simples de video chat ponto a ponto (peer-to-peer) construída com WebRTC, demonstrando capacidades de comunicação em tempo real para fins de investigação académica.
 
-Objetivo Esta aplicação foi desenvolvida no âmbito de um projeto de investigação em Redes e Serviços de Comunicação Multimédia para:
+Objetivo Esta aplicação foi desenvolvida no âmbito de um projeto académico para a unidade curricular de Redes e Serviços de Comunicação Multimédia para:
 
 - Demonstrar a implementação de WebRTC na prática;
 - Analisar o desempenho em diferentes condições de rede;
