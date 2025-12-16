@@ -50,11 +50,12 @@ class StatsMonitor {
                         packetsLost: report.packetsLost || 0,
                         packetsReceived: report.packetsReceived || 0,
                         bytesReceived: report.bytesReceived || 0,
-                        jitter: report.jitter || 0,
+                        jitter: parseFloat(report.jitter) || 0,
                         framesPerSecond: report.framesPerSecond || 0,
                         frameWidth: report.frameWidth || 0,
                         frameHeight: report.frameHeight || 0
                     };
+                    console.log(report.jitter);
                     
                     this.statsHistory.video.push(videoStats);
                     this.displayVideoStats(videoStats);
@@ -206,17 +207,24 @@ class StatsMonitor {
 
     // Gerar CSV
     generateCSV() {
-        let csv = 'Timestamp,PacketsLost,PacketsReceived,PacketLoss%,Jitter(ms),Bitrate(kbps),Resolution,FPS\n';
-        
+        let csv = 'Timestamp,PacketsLost,PacketsReceived,PacketLoss%,Jitter(ms),RTT(ms),Bitrate(kbps),Resolution,FPS\n';
+
         this.statsHistory.video.forEach((stats, index) => {
             const total = stats.packetsLost + stats.packetsReceived;
             const lossRate = total > 0 ? ((stats.packetsLost / total) * 100).toFixed(2) : 0;
             const bitrate = this.calculateBitrate(stats.bytesReceived);
             
+            const connectionStat = this.statsHistory.connection.find(c => 
+                Math.abs(c.timestamp - stats.timestamp) < 1000
+            );
+            const rtt = connectionStat 
+                ? connectionStat.currentRoundTripTime.toFixed(3) 
+                : 'N/A';
+
             csv += `${stats.timestamp},${stats.packetsLost},${stats.packetsReceived},${lossRate},` +
-                   `${(stats.jitter * 1000).toFixed(2)},${bitrate},` +
-                   `${stats.frameWidth}x${stats.frameHeight},${stats.framesPerSecond}\n`;
-        });
+                `${parseFloat(stats.jitter).toFixed(3)},${rtt},${bitrate},` +
+                `${stats.frameWidth}x${stats.frameHeight},${stats.framesPerSecond}\n`;
+                    });
         
         return csv;
     }

@@ -76,7 +76,7 @@ function updateStatsDisplay() {
         <div class="stat-line"><span class="icon-call"><i class="fas fa-film"></i></span> FPS: ${summary.fps}</div>
         <div class="stat-line"><span class="icon-call"><i class="fas fa-chart-area"></i></span> Packet Loss: ${summary.avgPacketLoss}</div>
         <div class="stat-line"><span class="icon-call"><i class="fas fa-clock"></i></span> Jitter: ${summary.avgJitter}</div>
-        <div class="stat-line"><span class="icon-call"><i class="fas fa-undo"></i></span> 🔄 RTT: ${summary.avgRTT}</div>
+        <div class="stat-line"><span class="icon-call"><i class="fas fa-undo"></i></span> RTT: ${summary.avgRTT}</div>
         <div class="stat-line"><span class="icon-call"><i class="fas fa-chart-bar"></i></span> Amostras: ${summary.sampleCount}</div>
     `;
 }
