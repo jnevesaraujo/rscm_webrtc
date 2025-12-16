@@ -15,11 +15,11 @@ if (toggleVideoBtn) {
                 
                 // Atualizar UI do botão
                 if (isVideoEnabled) {
-                    toggleVideoBtn.textContent = "Camera ON";
+                    toggleVideoBtn.innerHTML = '<span class="icon-call"><i class="fas fa-video"></i></span> Câmera ON';
                     toggleVideoBtn.classList.remove("off");
                     console.log("Câmera ativada");
                 } else {
-                    toggleVideoBtn.textContent = "Camera OFF";
+                    toggleVideoBtn.innerHTML = '<span class="icon-call"><i class="fas fa-eye-slash"></i></span> Câmera OFF';
                     toggleVideoBtn.classList.add("off");
                     console.log("Câmera desativada");
                 }
