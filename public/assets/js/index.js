@@ -18,7 +18,8 @@ window.isAlreadyCalling = false;
 navigator.getUserMedia(
     {video: {
         width: { ideal: 4096 },
-        height: { ideal: 2160 } 
+        height: { ideal: 2160 },
+        facingMode: "user" 
     } , audio: true},
     stream => {
          window.localStream = stream;
