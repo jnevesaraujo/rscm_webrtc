@@ -9,9 +9,27 @@ Objetivo Esta aplicação foi desenvolvida no âmbito de um projeto de investiga
 - Compreender a arquitetura e os compromissos (trade-offs) da comunicação ponto a ponto.
 
 ### Arquitetura Visão Geral do Sistema
-
-[Diagrama]
-
+```
+┌─────────────────┐         ┌──────────────────┐         ┌─────────────────┐
+│    Client A     │◄───────►│  Signaling       │◄───────►│    Client B     │
+│                 │         │  Server          │         │                 │
+│ • getUserMedia  │         │  (Socket.IO)     │         │ • getUserMedia  │
+│ • PeerConnection│         │                  │         │ • PeerConnection│
+│ • UI Controls   │         └──────────────────┘         │ • UI Controls   │
+└────────┬────────┘                                      └────────┬────────┘
+         │                                                        │
+         │              ┌──────────────────┐                      │
+         └─────────────►│  STUN Server     │◄─────────────────────┘
+                        │  (Google)        │
+                        └──────────────────┘
+         │              ┌──────────────────┐                      │
+         └─────────────►│  TURN Server     │◄─────────────────────┘
+                        │  (OpenRelay)     │
+                        └──────────────────┘
+         
+         ═══════════════════════════════════════════════════════════
+                    P2P Media Stream (after connection)
+```
 Diagrama de Sequência do Fluxo de Ligação 
 [Espaço para o diagrama]
 
