@@ -4,13 +4,9 @@ Uma aplicação simples de video chat ponto a ponto (peer-to-peer) construída c
 Objetivo Esta aplicação foi desenvolvida no âmbito de um projeto de investigação em Redes e Serviços de Comunicação Multimédia para:
 
 - Demonstrar a implementação de WebRTC na prática;
-
 - Analisar o desempenho em diferentes condições de rede;
-
 - Comparar uma implementação básica de WebRTC com soluções comerciais;
-
 - Compreender a arquitetura e os compromissos (trade-offs) da comunicação ponto a ponto.
-
 
 ### Arquitetura Visão Geral do Sistema
 
@@ -22,32 +18,23 @@ Diagrama de Sequência do Fluxo de Ligação
 ### Tecnologias Utilizadas (Stack Tecnológica)
 
 - Backend (Servidor de Sinalização):
-
 - Node.js + Express
-
 - Socket.IO para sinalização via WebSocket
-
 - TypeScript para segurança de tipos (type safety)
-
 - Frontend (Cliente):
-
 - JavaScript puro (Vanilla JavaScript)
 
 ### APIs WebRTC:
 
 - getUserMedia – Captura de média
-
 - RTCPeerConnection – Ligação P2P
-
 - RTCSessionDescription – Gestão de SDP
-
 - Cliente Socket.IO para sinalização
 
 ### Infraestrutura:
 
-Servidor STUN: stun.l.google.com:19302
-
-Servidor TURN: openrelay.metered.ca (fallback para travessia de NAT)
+- Servidor STUN: stun.l.google.com:19302
+- Servidor TURN: openrelay.metered.ca (fallback para travessia de NAT)
 
 Funcionalidades 
 - [x] Video chat 1-para-1 
@@ -60,7 +47,5 @@ Funcionalidades
 ### Pré-requisitos
 
 - Node.js >= 18.0.0
-
 - npm ou yarn
-
 - Navegador moderno (Chrome 90+, Firefox 88+, Safari 15+)
