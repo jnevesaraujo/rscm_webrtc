@@ -1,7 +1,7 @@
 ## Demonstração de Video Chat com WebRTC
 Uma aplicação simples de video chat ponto a ponto (peer-to-peer) construída com WebRTC, demonstrando capacidades de comunicação em tempo real para fins de investigação académica.
 
-Objetivo Esta aplicação foi desenvolvida no âmbito de um projeto académico para a unidade curricular de Redes e Serviços de Comunicação Multimédia para:
+Objetivo: Esta aplicação foi desenvolvida no âmbito de um projeto académico para a unidade curricular de Redes e Serviços de Comunicação Multimédia para:
 
 - Demonstrar a implementação de WebRTC na prática;
 - Analisar o desempenho em diferentes condições de rede;
@@ -35,11 +35,11 @@ Diagrama de Sequência do Fluxo de Ligação
 
 ### Tecnologias Utilizadas (Stack Tecnológica)
 
-- Backend (Servidor de Sinalização):
+#### Backend (Servidor de Sinalização):
 - Node.js + Express
 - Socket.IO para sinalização via WebSocket
 - TypeScript para segurança de tipos (type safety)
-- Frontend (Cliente):
+#### Frontend (Cliente):
 - JavaScript puro (Vanilla JavaScript)
 
 ### APIs WebRTC:
