@@ -22,10 +22,6 @@ Objetivo: Esta aplicação foi desenvolvida no âmbito de um projeto académico 
          └─────────────►│  STUN Server     │◄─────────────────────┘
                         │  (Google)        │
                         └──────────────────┘
-         │              ┌──────────────────┐                      │
-         └─────────────►│  TURN Server     │◄─────────────────────┘
-                        │  (OpenRelay)     │
-                        └──────────────────┘
          
          ═══════════════════════════════════════════════════════════
                     P2P Media Stream (after connection)
