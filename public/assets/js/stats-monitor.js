@@ -207,30 +207,56 @@ class StatsMonitor {
 
     // Gerar CSV
     generateCSV() {
-        let csv = 'Timestamp,PacketsLost,PacketsReceived,PacketLoss%,Jitter(ms),RTT(ms),Bitrate(kbps),Resolution,FPS,AudioPacketsLost,AudioJitter(ms)\n';
-
-        this.statsHistory.video.forEach((stats, index) => {
+        let csv = '';
+        
+        // === SECÇÃO 1: VIDEO STATS ===
+        csv += '=== VIDEO STATISTICS ===\n';
+        csv += 'Timestamp,PacketsLost,PacketsReceived,PacketLoss%,Jitter(ms),BytesReceived,Bitrate(kbps),Resolution,FPS\n';
+        
+        this.statsHistory.video.forEach((stats) => {
             const total = stats.packetsLost + stats.packetsReceived;
-            const lossRate = total > 0 ? ((stats.packetsLost / total) * 100).toFixed(2) : 0;
+            const lossRate = total > 0 ? ((stats.packetsLost / total) * 100).toFixed(4) : '0.0000';
             const bitrate = this.calculateBitrate(stats.bytesReceived);
+            const jitter = parseFloat(stats.jitter).toFixed(4);
             
-            const connectionStat = this.statsHistory.connection.find(c => 
-                Math.abs(c.timestamp - stats.timestamp) < 1000
-            );
-            const rtt = connectionStat ? connectionStat.currentRoundTripTime.toFixed(4) : 'N/A';
-
-            const audioStat = this.statsHistory.audio.find(a => 
-                Math.abs(a.timestamp - stats.timestamp) < 1000
-            );
-
-            const audioPacketsLost = audioStat ? audioStat.packetsLost : 'N/A';
-            const audioJitter = audioStat ? parseFloat(audioStat.jitter).toFixed(4) : 'N/A';
-
             csv += `${stats.timestamp},${stats.packetsLost},${stats.packetsReceived},${lossRate},` +
-                `${parseFloat(stats.jitter).toFixed(4)},${rtt},${bitrate},` +
-                `${stats.frameWidth}x${stats.frameHeight},${stats.framesPerSecond},` +
-                `${audioPacketsLost},${audioJitter}\n`;
-                    });
+                `${jitter},${stats.bytesReceived},${bitrate},` +
+                `${stats.frameWidth}x${stats.frameHeight},${stats.framesPerSecond}\n`;
+        });
+        
+        // === SECÇÃO 2: AUDIO STATS ===
+        csv += '\n=== AUDIO STATISTICS ===\n';
+        csv += 'Timestamp,PacketsLost,PacketsReceived,PacketLoss%,Jitter(ms),BytesReceived\n';
+        
+        this.statsHistory.audio.forEach((stats) => {
+            const total = stats.packetsLost + stats.packetsReceived;
+            const lossRate = total > 0 ? ((stats.packetsLost / total) * 100).toFixed(4) : '0.0000';
+            const jitter = parseFloat(stats.jitter).toFixed(4);
+            
+            csv += `${stats.timestamp},${stats.packetsLost},${stats.packetsReceived},${lossRate},` +
+                `${jitter},${stats.bytesReceived}\n`;
+        });
+        
+        // === SECÇÃO 3: CONNECTION STATS ===
+        csv += '\n=== CONNECTION STATISTICS ===\n';
+        csv += 'Timestamp,RTT(ms),AvailableOutgoingBitrate(bps),BytesReceived,BytesSent\n';
+        
+        this.statsHistory.connection.forEach((stats) => {
+            const rtt = stats.currentRoundTripTime.toFixed(4);
+            
+            csv += `${stats.timestamp},${rtt},${stats.availableOutgoingBitrate},` +
+                `${stats.bytesReceived},${stats.bytesSent}\n`;
+        });
+        
+        // === SECÇÃO 4: SUMMARY ===
+        const summary = this.getSummary();
+        csv += '\n=== SUMMARY ===\n';
+        csv += `Resolution,${summary.resolution}\n`;
+        csv += `Average FPS,${summary.fps}\n`;
+        csv += `Average Packet Loss,${summary.avgPacketLoss}\n`;
+        csv += `Average Jitter,${summary.avgJitter}\n`;
+        csv += `Average RTT,${summary.avgRTT}\n`;
+        csv += `Total Samples,${summary.sampleCount}\n`;
         
         return csv;
     }

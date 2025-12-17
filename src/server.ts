@@ -27,7 +27,7 @@ export class Server {
         // Adiciona configuração CORS
         this.io = new SocketIOServer(this.httpServer, {
             cors: {
-                origin: "*", // Para testes - em produção restringe isto
+                origin: "*", // Para testes
                 methods: ["GET", "POST"]
             }
         });
