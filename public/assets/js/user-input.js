@@ -1,4 +1,4 @@
-// ====== CONTROLOS DE MÍDIA ======
+// ====== CONTROLOS DE MEDIA ======
 
 let isVideoEnabled = true;
 let isAudioEnabled = true;
@@ -15,17 +15,17 @@ if (toggleVideoBtn) {
                 
                 // Atualizar UI do botão
                 if (isVideoEnabled) {
-                    toggleVideoBtn.textContent = "📹 Câmera ON";
+                    toggleVideoBtn.innerHTML = '<span class="icon-call"><i class="fas fa-video"></i></span> Câmera ON';
                     toggleVideoBtn.classList.remove("off");
-                    console.log("✅ Câmera ativada");
+                    console.log("Câmera ativada");
                 } else {
-                    toggleVideoBtn.textContent = "📹 Câmera OFF";
+                    toggleVideoBtn.innerHTML = '<span class="icon-call"><i class="fas fa-eye-slash"></i></span> Câmera OFF';
                     toggleVideoBtn.classList.add("off");
-                    console.log("❌ Câmera desativada");
+                    console.log("Câmera desativada");
                 }
             }
         } else {
-            console.warn("⚠️ Stream local não disponível");
+            console.warn("Stream local não disponível");
         }
     });
 }
@@ -42,17 +42,17 @@ if (toggleAudioBtn) {
                 
                 // Atualizar UI do botão
                 if (isAudioEnabled) {
-                    toggleAudioBtn.textContent = "🎤 Microfone ON";
+                    toggleAudioBtn.innerHTML = '<span class="icon-call"><i class="fas fa-microphone"></i></span> Microfone ON';
                     toggleAudioBtn.classList.remove("off");
-                    console.log("✅ Microfone ativado");
+                    console.log("Microfone ativado");
                 } else {
-                    toggleAudioBtn.textContent = "🔇 Microfone OFF";
+                    toggleAudioBtn.innerHTML = '<span class="icon-call"><i class="fas fa-microphone-slash"></i></span> Microfone OFF';
                     toggleAudioBtn.classList.add("off");
-                    console.log("❌ Microfone desativado");
+                    console.log("Microfone desativado");
                 }
             }
         } else {
-            console.warn("⚠️ Stream local não disponível");
+            console.warn("Stream local não disponível");
         }
     });
 }
@@ -66,20 +66,20 @@ if (hangupBtn) {
 }
 
 function hangupCall() {
-    console.log("📞 A desligar chamada...");
+    console.log("A desligar chamada...");
     
     // Parar todos os tracks
     if (localStream) {
         localStream.getTracks().forEach(track => {
             track.stop();
-            console.log("⏹️ Track parado:", track.kind);
+            console.log("Track parado:", track.kind);
         });
     }
     
     // Fechar peer connection
     if (peerConnection) {
         peerConnection.close();
-        console.log("🔌 Peer connection fechada");
+        console.log("Peer connection fechada");
     }
     
     // Limpar vídeos
@@ -109,17 +109,16 @@ function hangupCall() {
     
     // Resetar botões
     if (toggleVideoBtn) {
-        toggleVideoBtn.textContent = "📹 Câmera ON";
+        toggleVideoBtn.textContent = "Câmera ON";
         toggleVideoBtn.classList.remove("off");
     }
     if (toggleAudioBtn) {
-        toggleAudioBtn.textContent = "🎤 Microfone ON";
+        toggleAudioBtn.textContent = "Microfone ON";
         toggleAudioBtn.classList.remove("off");
     }
     
-    console.log("✅ Chamada terminada");
+    console.log("Chamada terminada");
     
-    // Reiniciar stream (opcional - se quiseres manter preview)
     reinitializeStream();
 }
 
@@ -131,11 +130,11 @@ function reinitializeStream() {
             const localVideo = document.getElementById("local-video");
             if (localVideo) {
                 localVideo.srcObject = stream;
-                console.log("✅ Stream local reiniciado");
+                console.log("Stream local reiniciado");
             }
         },
         error => {
-            console.error("❌ Erro ao reiniciar stream:", error);
+            console.error("Erro ao reiniciar stream:", error);
         }
     );
 }

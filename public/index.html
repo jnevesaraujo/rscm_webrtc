@@ -10,7 +10,7 @@
    <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet" />
    <link rel="stylesheet" href="assets/css/styles.css" />
  </head>
- <body>
+ <body class="d-flex flex-column vh-100">
    <div class="container-fluid">
      <header class="header">
        <div class="logo-container">
@@ -20,31 +20,46 @@
          </h1>
        </div>
      </header>
-     <div class="content-container">
-       <div class="active-users-panel" id="active-user-container">
+     <div class="container-fluid">
+      <div class="row w-100 content-container">
+       <div class="col-sm-2 active-users-panel" id="active-user-container">
          <h3 class="panel-title">Active Users:</h3>
        </div>
-       <div class="video-chat-container cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+      <div id="stats-display" class="col-sm-2">
+        <h4>📊 WebRTC Statistics</h4>
+        <div id="stats-content">
+            <div class="stat-line">Aguardando dados...</div>
+        </div>
+    </div>
+       <div class="video-chat-container cover-container h-100 p-3 mx-auto col-10">
          <h2 class="talk-info" id="talking-with-info"> 
            Select active user on the left menu.
          </h2>
         <!-- Controlos -->
-        <div class="controls">
-            <button id="toggle-video" class="control-btn btn-video">📹 Câmera ON</button>
-            <button id="toggle-audio" class="control-btn btn-audio">🎤 Microfone ON</button>
-            <button id="hangup" class="control-btn btn-hangup">📞 Desligar Chamada</button>
+        <div class="row controls">
+            <button id="toggle-video" class="col control-btn btn-video"><span class="icon-call"><i class="fas fa-video"></i></span> Câmera ON</button>
+            <button id="toggle-audio" class="col control-btn btn-audio"><span class="icon-call"><i class="fas fa-microphone"></i></span> Microfone ON</button>
+            <button id="hangup" class="col control-btn btn-hangup"><span class="icon-call"><i class="fas fa-phone-slash"></i></span> Desligar Chamada</button>
         </div>
          <div class="video-container">
            <video autoplay class="remote-video" id="remote-video"></video>
            <video autoplay muted class="local-video" id="local-video"></video>
          </div>
+         <div class="row">
+          <button id="toggle-stats" class="col control-btn btn-stats"><span class="icon-call"><i class="fas fa-chart-bar"></i></span> Mostrar Stats</button>
+          <button id="export-stats" class="col control-btn btn-stats"><span class="icon-call"><i class="fas fa-save"></i></span> Export CSV</button>
+         </div>
        </div>
+      </div>
      </div>
    </div>
+   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.6.0/css/all.min.css" rel="stylesheet" />
    <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
    <script src="/socket.io/socket.io.js"></script>
    <script src="assets/js/index.js"></script>
    <script src="assets/js/user-input.js"></script>
+   <script src="/assets/js/stats-monitor.js"></script>
+   <script src="/assets/js/stats-ui.js"></script>
  </body>
 </html>

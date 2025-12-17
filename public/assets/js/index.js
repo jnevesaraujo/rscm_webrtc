@@ -16,7 +16,11 @@ let localStream;
 window.isAlreadyCalling = false;
 
 navigator.getUserMedia(
-    {video: true, audio: true},
+    {video: {
+        width: { ideal: 1920 },
+        height: { ideal: 1080 },
+        facingMode: "user" 
+    } , audio: true},
     stream => {
          window.localStream = stream;
         const localVideo = document.getElementById("local-video");
