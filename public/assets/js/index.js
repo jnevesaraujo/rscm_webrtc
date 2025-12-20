@@ -3,6 +3,9 @@
 const { RTCPeerConnection, RTCSessionDescription } = window;
 
 window.localStream = null;
+
+// Inicialização da interface WebRTC com servidor 
+// STUN para travessia de NAT (ICE Negotiation)
 window.peerConnection = new RTCPeerConnection({
 
     iceServers: [
@@ -15,6 +18,7 @@ window.peerConnection = new RTCPeerConnection({
 let localStream;
 window.isAlreadyCalling = false;
 
+// Captura de media local e injeção das faixas (Tracks) na PeerConnection
 navigator.getUserMedia(
     {video: {
         width: { ideal: 1920 },
@@ -36,6 +40,7 @@ navigator.getUserMedia(
     }
 );
 
+// Receção do fluxo de media direto (RTP/SRTP) assim que a conexão P2P é estabelecida
 peerConnection.ontrack = function({ streams: [stream]}) {
     const remoteVideo = document.getElementById("remote-video");
     
@@ -50,6 +55,7 @@ peerConnection.ontrack = function({ streams: [stream]}) {
  */
 const socket = io();
 
+// Estabelecimento do canal de controlo para sinalização
 socket.on("connect", () => {
     console.log("Conectado ao servidor! Meu Socket ID:", socket.id);
 });
@@ -72,6 +78,8 @@ socket.on("connect_error", (error) => {
     console.error("Erro ao conectar:", error);
 });
 
+// Fase de Resposta (Answer Exchange): 
+// Recebe oferta, assimila remoteDescription e devolve answer (SDP)
 socket.on("call-made", async data => {
     try {
         await peerConnection.setRemoteDescription(
