@@ -26,17 +26,18 @@ Objetivo: Esta aplicação foi desenvolvida no âmbito de um projeto académico 
          ═══════════════════════════════════════════════════════════
                     P2P Media Stream (after connection)
 ```
-### Diagrama de Sequência do Fluxo de Ligação 
-![Diagrama da sequência do fluxo de ligação](/public/assets/img/demoApp_mermaidSequenceDiagram_transparent.png)
-
 ### Tecnologias Utilizadas (Stack Tecnológica)
 
 #### Backend (Servidor de Sinalização):
 - Node.js + Express
 - Socket.IO para sinalização via WebSocket
 - TypeScript para segurança de tipos (type safety)
+
 #### Frontend (Cliente):
 - JavaScript puro (Vanilla JavaScript)
+
+### Diagrama de Sequência do Fluxo de Ligação 
+![Diagrama da sequência do fluxo de ligação](/public/assets/img/demoApp_mermaidSequenceDiagram_transparent.png)
 
 ### APIs WebRTC:
 
