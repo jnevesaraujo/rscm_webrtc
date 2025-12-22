@@ -3,6 +3,8 @@ import socketIO, { Server as SocketIOServer } from "socket.io";
 import { createServer, Server as HTTPServer } from "http";
 import path from 'path';
 
+// Servidor de Sinalização responsável pela descoberta 
+// de pares e encaminhamento de mensagens SDP
 export class Server {
     private httpServer!: HTTPServer;
     private app!: Application;
@@ -24,7 +26,8 @@ export class Server {
         this.app = express();
         this.httpServer = createServer(this.app);
 //        this.io = new SocketIOServer(this.httpServer);
-        // Adiciona configuração CORS
+
+        // Configuração do WebSocket (Socket.IO) para criar o canal de controlo bidirecional
         this.io = new SocketIOServer(this.httpServer, {
             cors: {
                 origin: "*", // Para testes
@@ -46,6 +49,8 @@ export class Server {
 
     private handleSocketConnection(): void {
 
+        // Gestão de eventos WebSocket: 
+        // Deteta conexões para manter o estado de presença (quem está online)
         this.io.on("connection", socket => {
             console.log("Novo socket conectado:", socket.id);
             const existingSocket = this.activeSockets.find(
@@ -56,6 +61,8 @@ export class Server {
                 this.activeSockets.push(socket.id);
                 console.log("Socket adicionado. Total ativos:", this.activeSockets.length);
 
+                // Notificação de Presença: Informa o novo utilizador 
+                // e a rede sobre a lista atualizada de pares
                 socket.emit("update-user-list", {
                     users: this.activeSockets.filter(
                         existingSocket => existingSocket !== socket.id
@@ -69,7 +76,8 @@ export class Server {
                 console.log("Socket já existe");
             }
 
-            
+            // Encaminhamento de Oferta (Signaling): 
+            // Recebe o SDP Offer de A e reenvia para B
             socket.on("call-user", data => {
                 socket.to(data.to).emit("call-made", {
                     offer: data.offer,
@@ -77,6 +85,8 @@ export class Server {
                 });
             });
             
+            // Encaminhamento de Resposta (Signaling): 
+            // Recebe o SDP Answer de B e devolve para A, fechando a negociação
             socket.on("make-answer", data => {
                 socket.to(data.to).emit("answer-made", {
                     socket: socket.id,
@@ -84,6 +94,8 @@ export class Server {
                 });
             });
 
+            // Gestão de Desconexão: Remove o utilizador 
+            // da lista ativa e notifica os restantes
             socket.on("disconnect", (reason) => {
             this.activeSockets = this.activeSockets.filter(
                 existingSocket => existingSocket !== socket.id
@@ -99,12 +111,18 @@ export class Server {
 
     private configureApp(): void {
 
-        this.app.use(express.static(path.join(__dirname, "../public")))
+        // Servidor de Conteúdos Estáticos: 
+        // Disponibiliza a aplicação cliente (HTML/JS)
+        const publicPath = path.join(process.cwd(), "public");
+        console.log("📁 Servindo pasta public de:", publicPath);
+        this.app.use(express.static(publicPath));
 
     }
 
     public listen(callback: (port: number) => void): void {
-
+        
+        // Inicialização do Servidor: Coloca o servidor HTTP à escuta 
+        // na porta definida para aceitar conexões de entrada
         this.httpServer.listen(this.DEFAULT_PORT, () =>
             callback(this.DEFAULT_PORT)
         );
