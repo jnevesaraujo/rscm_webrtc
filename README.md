@@ -27,7 +27,7 @@ Objetivo: Esta aplicação foi desenvolvida no âmbito de um projeto académico 
                     P2P Media Stream (after connection)
 ```
 ### Diagrama de Sequência do Fluxo de Ligação 
-[Espaço para o diagrama]
+![Diagrama da sequência do fluxo de ligação](/public/assets/img/demoApp_mermaidSequenceDiagram_transparent.png)
 
 ### Tecnologias Utilizadas (Stack Tecnológica)
 
