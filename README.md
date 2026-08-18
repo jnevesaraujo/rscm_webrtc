@@ -1,14 +1,13 @@
-## Demonstração de Video Chat com WebRTC
-Uma aplicação simples de video chat ponto a ponto (peer-to-peer) construída com WebRTC, demonstrando capacidades de comunicação em tempo real para fins de investigação académica.
+# WebRTC Video Chat
 
-Objetivo: Esta aplicação foi desenvolvida no âmbito de um projeto académico para a unidade curricular de Redes e Serviços de Comunicação Multimédia para:
+A browser-based peer-to-peer video chat app built from scratch with WebRTC — no third-party video SDKs, no media servers in the middle. Just two browsers talking directly to each other.
 
-- Demonstrar a implementação de WebRTC na prática;
-- Analisar o desempenho em diferentes condições de rede;
-- Comparar uma implementação básica de WebRTC com soluções comerciais;
-- Compreender a arquitetura e os compromissos (trade-offs) da comunicação ponto a ponto.
+Built for a university course on Multimedia Communication Networks and Services, as a practical deep-dive into how real-time communication actually works under the hood of tools like Zoom or Google Meet.
 
-### Arquitetura Visão Geral do Sistema
+---
+
+## System Architecture
+
 ```
 ┌─────────────────┐         ┌──────────────────┐         ┌─────────────────┐
 │    Client A     │◄───────►│  Signaling       │◄───────►│    Client B     │
@@ -26,41 +25,51 @@ Objetivo: Esta aplicação foi desenvolvida no âmbito de um projeto académico 
          ═══════════════════════════════════════════════════════════
                     P2P Media Stream (after connection)
 ```
-### Tecnologias Utilizadas (Stack Tecnológica)
 
-#### Backend (Servidor de Sinalização):
-- Node.js + Express
-- Socket.IO para sinalização via WebSocket
-- TypeScript para segurança de tipos (type safety)
+---
 
-#### Frontend (Cliente):
-- JavaScript puro (Vanilla JavaScript)
+## What It Does
 
-### Diagrama de Sequência do Fluxo de Ligação 
-![Diagrama da sequência do fluxo de ligação](/public/assets/img/demoApp_mermaidSequenceDiagram_transparent.png)
+Two users open the app, and it negotiates a direct connection between their browsers. Once connected, audio and video stream peer-to-peer — the media never touches a server. Either participant can mute, toggle their camera, or end the call at any time.
 
-### APIs WebRTC:
+The app also detects in real time when someone joins or leaves, so there's no manual room code to share — presence is automatic.
 
-- getUserMedia – Captura de média
-- RTCPeerConnection – Ligação P2P
-- RTCSessionDescription – Gestão de SDP
-- Cliente Socket.IO para sinalização
+---
 
-### Infraestrutura:
+## How the Connection Works
 
-- Servidor STUN: stun.l.google.com:19302
-- Servidor TURN: openrelay.metered.ca (fallback para travessia de NAT)
+WebRTC connections don't just happen — browsers need a way to find each other and agree on how to communicate before the direct link can be established. This app handles that in two steps:
 
-Funcionalidades 
-- [x] Video chat 1-para-1 
-- [x] Controlos para ativar/desativar áudio e vídeo 
-- [x] Funcionalidade de terminar chamada 
-- [x] Deteção de presença de utilizadores em tempo real 
-- [x] Débito adaptativo (adaptive bitrate) automático 
-- [x] Fallback STUN/TURN para travessia de NAT
+1. **Signaling** — A lightweight Node.js server (Socket.IO) acts as a matchmaker, passing connection metadata between the two browsers just long enough to get them introduced
+2. **Traversal** — Once introduced, a STUN server helps both browsers figure out their public-facing addresses so the direct connection can punch through routers and firewalls. A TURN server acts as a fallback relay if a direct path isn't possible
 
-### Pré-requisitos
+After that handshake, the server steps back and the stream goes entirely peer-to-peer.
 
-- Node.js >= 18.0.0
+![Connection sequence diagram](public/assets/img/demoApp_mermaidSequenceDiagram_transparent.png)
+
+---
+
+## Tech Stack
+
+| | |
+|---|---|
+| **Signaling server** | Node.js + Express + Socket.IO |
+| **Server language** | TypeScript |
+| **Client** | Vanilla JavaScript + WebRTC APIs |
+| **STUN** | Google (`stun.l.google.com`) |
+| **TURN fallback** | OpenRelay |
+
+---
+
+## Running It
+
+```bash
+npm install
+npm run dev
+```
+
+Open `localhost` in two browser tabs (or two devices on the same network) to test a call.
+
+Requires Node.js 18+ and a modern browser (Chrome 90+, Firefox 88+, Safari 15+).
 - npm ou yarn
 - Navegador moderno (Chrome 90+, Firefox 88+, Safari 15+)
